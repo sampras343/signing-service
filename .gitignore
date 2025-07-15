@@ -1,4 +1,5 @@
-keys/private.pem
+**private.pem**
+**public.pem**
 *.log
 *.out
 .idea/

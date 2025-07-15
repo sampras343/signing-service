@@ -12,6 +12,7 @@
 ### Core Logic
 1. The signing service will accept certificate from a local directory but it should be easily replacable with any other interface at a later stage of the project.
 2. The signing service should create hashes for each of the artifacts an a given instance to maintain the authenticity and avoid tampering at any given stage.
+3. The core signing logic should also be abstracted away in case a different signing mechanism is used at a later stage.
 
 ### Outputs
 1. The signing service will provide a manifest of the output

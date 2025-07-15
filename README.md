@@ -1,5 +1,46 @@
 # Signing Service
 
+## Pre-Requisites
+- Clone the repository
+
+- Navigate to the source directory
+```bash
+cd signing-service/model-signing-service/
+```
+
+- Run script to generate necessary keys
+```bash
+bash scripts/gen_keys.sh
+```
+
+- Run script to generate dummy input files
+```bash
+bash scripts/prepare_input.sh
+```
+
+## How To Run?
+- Below steps have to be run from `signing-service/model-signing-service/`
+- Replace the existing dummy artifacts with the actuals in the input-folder or a custom folder and ensure to provide the correct path in the next step. 
+
+- Run the signer
+```bash
+go run cmd/signer/main.go --input input-folder --output output/signed_bundle.zip
+```
+
+- Optional: Overridet the path of public & private keys as well
+```bash
+go run cmd/signer/main.go --input <input-folder> --output <output.zip> --priv <path/to/private.pem> --pub <path/to/public.pem>
+```
+
+- This will create a signed artifact under the folder output.
+
+- Optional: Unzip this signed artifact to explore what is available in the zip
+
+- Verify the integrity of the atrifact
+```bash
+go run cmd/verifier/main.go output/signed_bundle.zip
+```
+
 ## Features
 
 ### Input 
@@ -26,3 +67,4 @@
 1. Should be built and run as a simple executable.
 2. CLI interface
 3. REST interface
+

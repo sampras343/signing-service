@@ -1,0 +1,7 @@
+{
+  "author": "Sachin Sampras",
+  "timestamp": "2025-07-15T10:00:00Z",
+  "framework": "PyTorch",
+  "dataset_id": "demo-v1",
+  "description": "Dummy model for signing test"
+}

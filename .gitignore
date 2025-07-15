@@ -1,0 +1,7 @@
+keys/private.pem
+*.log
+*.out
+.idea/
+.vscode/
+__pycache__/
+*.DS_Store

@@ -1,5 +1,13 @@
 # Signing Service
 
+## 📑 Table of Contents
+
+- [Signing Service](#signing-service)
+  - [Pre-Requisites](#pre-requisites)
+  - [How To Run?](#how-to-run)
+  - [Features](#features)
+
+
 ## Pre-Requisites
 - Clone the repository
 

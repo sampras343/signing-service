@@ -1,47 +1,36 @@
+// cmd/main.go
 package main
 
 import (
-	"flag"
 	"fmt"
-	"log"
 	"os"
-	"github.com/sampras343/signing-service/model-signing-service/internal/app"
-	"github.com/sampras343/signing-service/model-signing-service/internal/service"
+	"strings"
 	"github.com/sampras343/signing-service/model-signing-service/internal/util"
+	"github.com/sampras343/signing-service/model-signing-service/internal/cli"
 )
 
 func main() {
-	mode := flag.String("mode", "cli", "Execution mode: cli | api")
-	inputDir := flag.String("input", "", "Input folder")
-	outputZip := flag.String("output", "output/signed_bundle.zip", "Output zip")
-	privKey := flag.String("priv", "keys/private.pem", "Private key")
-	pubKey := flag.String("pub", "keys/public.pem", "Public key")
-	bundlePath := flag.String("verify", "", "Bundle path to verify")
-	flag.Parse()
-
-	if *mode == util.CLI_MODE {
-		if *bundlePath != "" {
-			if err := service.VerifyBundle(*bundlePath); err != nil {
-				log.Fatal(err)
+	mode := util.CLI_MODE
+	for i, arg := range os.Args {
+		if strings.HasPrefix(arg, "--mode") {
+			if strings.Contains(arg, "=") {
+				mode = strings.SplitN(arg, "=", 2)[1]
+			} else if i+1 < len(os.Args) {
+				mode = os.Args[i+1]
 			}
-			return
 		}
+	}
+	if envMode := os.Getenv("MODE"); envMode != "" {
+		mode = envMode
+	}
 
-		cfg := app.Config{
-			InputDir:    *inputDir,
-			OutputZip:   *outputZip,
-			PrivKeyPath: *privKey,
-			PubKeyPath:  *pubKey,
-		}
-		svc, err := app.BuildSigningService(cfg)
-		if err != nil {
-			log.Fatal(err)
-		}
-		if err := svc.SignAndBundle(*inputDir, *outputZip); err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println("✅ Signed bundle created at:", *outputZip)
-	} else {
+	fmt.Printf("Starting signing-service in %s mode\n", mode)
+
+	switch mode {
+	case util.CLI_MODE:
+		filteredArgs := util.FilterModeArgs(os.Args[1:])
+		cli.RunCLI(filteredArgs)
+	default:
 		fmt.Println("Invalid mode. Use cli or api.")
 		os.Exit(1)
 	}

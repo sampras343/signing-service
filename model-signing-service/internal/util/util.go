@@ -3,9 +3,31 @@ package util
 import (
 	"archive/zip"
 	"io"
+	"strings"
 	"os"
 	"path/filepath"
 )
+
+func FilterModeArgs(args []string) []string {
+	var filtered []string
+	skip := false
+	for i, arg := range args {
+		if skip {
+			skip = false
+			continue
+		}
+		if arg == "--mode" {
+			skip = true
+			continue
+		}
+		if strings.HasPrefix(arg, "--mode=") {
+			continue
+		}
+		filtered = append(filtered, arg)
+		_ = i
+	}
+	return filtered
+}
 
 func UnzipTemp(src string) (string, error) {
 	tmpDir, err := os.MkdirTemp("", "bundle_extract")

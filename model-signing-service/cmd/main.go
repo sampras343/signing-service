@@ -2,10 +2,13 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 	"os"
 	"strings"
-	"github.com/sampras343/signing-service/model-signing-service/internal/util"
+	"github.com/sampras343/signing-service/model-signing-service/internal/api/routes"
 	"github.com/sampras343/signing-service/model-signing-service/internal/cli"
+	"github.com/sampras343/signing-service/model-signing-service/internal/util"
 )
 
 func main() {
@@ -35,8 +38,12 @@ func main() {
 	switch mode {
 	case util.CLI_MODE:
 		cli.RunCLI(util.FilterModeArgs(os.Args[1:]))
+	case util.API_MODE:
+		routes.RegisterRoutes()
+		log.Println("API server running on :8080")
+		log.Fatal(http.ListenAndServe(":8080", nil))
 	default:
-		fmt.Println("Invalid mode. Use cli or api.")
+		log.Fatal("Invalid mode. Use cli or api.")
 		os.Exit(1)
 	}
 }

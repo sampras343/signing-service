@@ -1,4 +1,3 @@
-// cmd/main.go
 package main
 
 import (
@@ -24,12 +23,18 @@ func main() {
 		mode = envMode
 	}
 
+	for _, arg := range os.Args {
+		if arg == "--help" || arg == "-h" {
+			util.PrintGlobalHelp()
+			return
+		}
+	}
+
 	fmt.Printf("Starting signing-service in %s mode\n", mode)
 
 	switch mode {
 	case util.CLI_MODE:
-		filteredArgs := util.FilterModeArgs(os.Args[1:])
-		cli.RunCLI(filteredArgs)
+		cli.RunCLI(util.FilterModeArgs(os.Args[1:]))
 	default:
 		fmt.Println("Invalid mode. Use cli or api.")
 		os.Exit(1)

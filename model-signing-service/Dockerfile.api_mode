@@ -1,0 +1,29 @@
+FROM golang:1.22 AS builder
+
+WORKDIR /app
+
+COPY go.mod ./
+RUN go mod download
+
+COPY . .
+
+RUN CGO_ENABLED=0 GOOS=linux go build -o signing-service ./cmd/main.go
+
+
+FROM alpine:3.19
+
+WORKDIR /app
+
+RUN apk add --no-cache ca-certificates
+
+COPY --from=builder /app/signing-service .
+
+# [Optional]: Uncomment if you want defaults available
+# COPY keys ./keys
+
+RUN mkdir -p /app/output_api
+
+EXPOSE 8080
+
+# Default to API mode; can override with --mode cli
+ENTRYPOINT ["/app/signing-service", "--mode", "api"]

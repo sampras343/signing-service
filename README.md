@@ -33,7 +33,7 @@ bash scripts/prepare_input.sh
   - API (In Development)
 - These modes can be toggled during the launch of application using 2 ways:
   - MODE environment variable
-  - Or by using --mode key ruing the run process
+  - Or by using --mode key during the run process
 - Default run mode is CLI
 
 ## How To Run?
@@ -77,6 +77,19 @@ go run cmd/main.go --mode api
   ```bash
   curl -F "bundle=@signed_bundle.zip" http://localhost:8080/verify
   ```
+
+## How To Build?
+- To build the binary output
+```bash
+go build -o signing-service cmd/main.go
+```
+
+- To a docker output
+```bash
+docker build -t signing-service:1.0.0 -f Dockerfile.api_mode .
+```
+
+- Follow the above steps on how to run the signing-service by replacing the go run with the binary
 
 ## Features
 

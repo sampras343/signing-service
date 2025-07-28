@@ -47,7 +47,7 @@ go run cmd/main.go sign --input ./input-folder --output ./output/signed_bundle.z
 
 - Optional: Override the path of public & private keys as well
 ```bash
-go run cmd/signer/main.go --input <input-folder> --output <output.zip> --priv <path/to/private.pem> --pub <path/to/public.pem>
+go run cmd/main.go sign --input <input-folder> --output <output.zip> --priv <path/to/private.pem> --pub <path/to/public.pem>
 ```
 
 - This will create a signed artifact under the folder output.

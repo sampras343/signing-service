@@ -33,13 +33,14 @@ bash scripts/prepare_input.sh
   - API (In Development)
 - These modes can be toggled during the launch of application using 2 ways:
   - MODE environment variable
-  - 
+  - Or by using --mode key ruing the run process
 - Default run mode is CLI
 
 ## How To Run?
 - Below steps have to be run from `signing-service/model-signing-service/`
 - Replace the existing dummy artifacts with the actuals in the input-folder or a custom folder and ensure to provide the correct path in the next step. 
 
+### In CLI Mode
 - Run the signer
 ```bash
 go run cmd/main.go sign --input ./input-folder --output ./output/signed_bundle.zip
@@ -58,6 +59,24 @@ go run cmd/main.go sign --input <input-folder> --output <output.zip> --priv <pat
 ```bash
 go run cmd/main.go verify ./output/signed_bundle.zip
 ```
+
+### In API Mode
+- Run the server
+```bash
+go run cmd/main.go --mode api
+```
+
+- The server runs on port 8080
+
+- Routes:
+  - To Sign artifacts
+  ```bash
+  curl -F "inputDir=@metadata.json" -F "inputDir=@model.onnx" -F "inputDir=@dataset.csv" http://localhost:8080/sign -o signed_bundle.zip
+  ```
+  - To Verify signature
+  ```bash
+  curl -F "bundle=@signed_bundle.zip" http://localhost:8080/verify
+  ```
 
 ## Features
 

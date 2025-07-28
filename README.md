@@ -4,6 +4,7 @@
 
 - [Signing Service](#signing-service)
   - [Pre-Requisites](#pre-requisites)
+  - [Notes](#notes)
   - [How To Run?](#how-to-run)
   - [Features](#features)
 
@@ -26,16 +27,25 @@ bash scripts/gen_keys.sh
 bash scripts/prepare_input.sh
 ```
 
+## Notes
+- The application can run in 2 modes
+  - CLI
+  - API (In Development)
+- These modes can be toggled during the launch of application using 2 ways:
+  - MODE environment variable
+  - 
+- Default run mode is CLI
+
 ## How To Run?
 - Below steps have to be run from `signing-service/model-signing-service/`
 - Replace the existing dummy artifacts with the actuals in the input-folder or a custom folder and ensure to provide the correct path in the next step. 
 
 - Run the signer
 ```bash
-go run cmd/signer/main.go --input input-folder --output output/signed_bundle.zip
+go run cmd/main.go sign --input ./input-folder --output ./output/signed_bundle.zip
 ```
 
-- Optional: Overridet the path of public & private keys as well
+- Optional: Override the path of public & private keys as well
 ```bash
 go run cmd/signer/main.go --input <input-folder> --output <output.zip> --priv <path/to/private.pem> --pub <path/to/public.pem>
 ```
@@ -46,7 +56,7 @@ go run cmd/signer/main.go --input <input-folder> --output <output.zip> --priv <p
 
 - Verify the integrity of the atrifact
 ```bash
-go run cmd/verifier/main.go output/signed_bundle.zip
+go run cmd/main.go verify ./output/signed_bundle.zip
 ```
 
 ## Features

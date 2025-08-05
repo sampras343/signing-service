@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  signing-service:
+    build:
+      context: .
+      dockerfile: Containerfile.api_mode
+    container_name: signing-service
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keys/:/app/keys/          # Map local keys directory (optional)
+      - ./output/:/app/output/      # Persist API outputs (optional)
+    environment:
+      - MODE=api                    # Override if you want CLI: MODE=cli
+    restart: unless-stopped

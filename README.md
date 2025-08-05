@@ -86,7 +86,7 @@ go build -o signing-service cmd/main.go
 
 - To a docker output
 ```bash
-docker build -t signing-service:1.0.0 -f Dockerfile.api_mode .
+docker build -t signing-service:1.0.0 -f Containerfile.api_mode .
 ```
 
 - Follow the above steps on how to run the signing-service by replacing the go run with the binary
